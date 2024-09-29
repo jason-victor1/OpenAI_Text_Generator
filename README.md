@@ -79,7 +79,41 @@ completion = openai.ChatCompletion.create(
 
 ---
 
-#### **3. Model Not Found Error**:
+#### **3. Externally-Managed Environment Error**:
+When trying to install Python packages using Homebrew’s Python, I encountered an `externally-managed-environment` error. This happened because Homebrew’s Python setup doesn’t allow direct modifications to system-level packages as part of **PEP 668**, which is designed to protect the system.
+
+**Error**:
+```bash
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try brew install xyz, where xyz is the package you are trying to install.
+```
+
+**Solution**:
+I resolved this issue by creating and using a virtual environment to install packages locally without affecting system-level Python.
+
+**Steps**:
+1. **Created a Virtual Environment**:
+   ```bash
+   python3 -m venv ~/myenv
+   ```
+
+2. **Activated the Virtual Environment**:
+   ```bash
+   source ~/myenv/bin/activate
+   ```
+
+3. **Installed the required packages**:
+   ```bash
+   pip install openai tiktoken
+   ```
+
+Once I set up the virtual environment, I was able to proceed with the project.
+
+---
+
+#### **4. Model Not Found Error**:
 Initially, I tried using the `gpt-4o` model, which resulted in a `model not found` error. This happened because my API key didn’t have access to that specific model.
 
 **Error**:
@@ -98,7 +132,7 @@ completion = openai.ChatCompletion.create(
 
 ---
 
-#### **4. Quota Exceeded Error (Rate Limit)**:
+#### **5. Quota Exceeded Error (Rate Limit)**:
 After running the script multiple times, I encountered an `insufficient_quota` error due to exceeding my API usage limit for the month.
 
 **Error**:
@@ -127,7 +161,5 @@ Once everything was set up correctly, the script ran successfully and generated 
 This project was a great learning experience for working with OpenAI’s API to generate text. While I encountered a few challenges, I was able to resolve them by troubleshooting API access, fixing errors, and ensuring proper usage of the OpenAI Python library.
 
 Feel free to check out the attached script: [chatgpt.py](./chatgpt.py)
-
-
 
 
