@@ -6,7 +6,7 @@ I created a Python script that interacts with OpenAI's API to generate text usin
 ### Step by Step Outline
 
 1. **Signed into OpenAI**:
-   I logged into the [OpenAI platform](https://platform.openai.com/) and I navigated to the **API section**. I created my unique **Project API Key**. This key allowed me to authenticate my requests to OpenAI's API.
+   I logged into the [OpenAI platform](https://platform.openai.com/), navigated to the **API section**, and created my unique **Project API Key**. This key allowed me to authenticate my requests to OpenAI's API.
 
 2. **Note on OpenAI API Costs**:
    OpenAI’s API is not free. Every time I asked OpenAI to generate text, it counted the number of tokens (which include words, spaces, and punctuation). The more tokens used, the higher the cost. Please keep this in mind when using the API.
@@ -21,7 +21,7 @@ I created a Python script that interacts with OpenAI's API to generate text usin
    ```
 
 5. **Developed the Python Script**:
-   I wrote a Python script to generate text using ChatGPT. The script sends a request to the OpenAI API in which it asks it to generate 5 catchy YouTube titles about email marketing tricks. You can find the attached script in the repository: [chatgpt.py](./chatgpt.py).
+   I wrote a Python script to generate text using ChatGPT. The script sends a request to the OpenAI API, asking it to generate 5 catchy YouTube titles about email marketing tricks. You can find the attached script in the repository: [chatgpt.py](./chatgpt.py).
 
    Here's the prompt I used in the script:
    ```
@@ -44,7 +44,7 @@ ModuleNotFoundError: No module named 'openai'
 ```
 
 **Solution**:
-I installed the OpenAI package using `pip` with the following command:
+I installed the OpenAI package using pip with the following command:
 ```bash
 python3.12 -m pip install openai
 ```
@@ -52,7 +52,34 @@ Once the installation was successful, the error was resolved.
 
 ---
 
-#### **2. Model Not Found Error**:
+#### **2. NameError: `OpenAI` Not Defined**:
+While trying to instantiate the OpenAI client, I mistakenly used `OpenAI` instead of `openai`, which resulted in a `NameError`.
+
+**Error**:
+```bash
+Traceback (most recent call last):
+  File "chatgpt.py", line 13, in <module>
+    client = OpenAI(
+             ^^^^^^
+NameError: name 'OpenAI' is not defined. Did you mean: 'openai'?
+```
+
+**Solution**:
+I corrected the usage by switching from `OpenAI` to `openai`, which is the correct way to use the OpenAI Python package. Here's the updated code:
+```python
+import openai
+
+openai.api_key = "your-api-key-here"
+
+completion = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": user_prompt}]
+)
+```
+
+---
+
+#### **3. Model Not Found Error**:
 Initially, I tried using the `gpt-4o` model, which resulted in a `model not found` error. This happened because my API key didn’t have access to that specific model.
 
 **Error**:
@@ -63,7 +90,7 @@ openai.NotFoundError: Error code: 404 - {'error': {'message': 'The model `gpt-4o
 **Solution**:
 After checking my API key permissions on the OpenAI dashboard, I updated the model to **gpt-3.5-turbo**, which resolved the issue:
 ```python
-completion = client.chat.completions.create(
+completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[{"role": "user", "content": user_prompt}]
 )
@@ -71,7 +98,7 @@ completion = client.chat.completions.create(
 
 ---
 
-#### **3. Quota Exceeded Error (Rate Limit)**:
+#### **4. Quota Exceeded Error (Rate Limit)**:
 After running the script multiple times, I encountered an `insufficient_quota` error due to exceeding my API usage limit for the month.
 
 **Error**:
@@ -100,5 +127,7 @@ Once everything was set up correctly, the script ran successfully and generated 
 This project was a great learning experience for working with OpenAI’s API to generate text. While I encountered a few challenges, I was able to resolve them by troubleshooting API access, fixing errors, and ensuring proper usage of the OpenAI Python library.
 
 Feel free to check out the attached script: [chatgpt.py](./chatgpt.py)
+
+
 
 
